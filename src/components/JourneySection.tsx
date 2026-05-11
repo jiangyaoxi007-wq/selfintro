@@ -53,12 +53,12 @@ export function JourneySection() {
   }, [inView, cycleDuration])
 
   return (
-    <section ref={ref} className="snap-section relative w-full min-h-screen bg-background flex flex-col justify-center overflow-hidden">
+    <section ref={ref} className="snap-section relative w-full min-h-screen bg-background flex flex-col justify-center overflow-hidden" style={{ paddingBottom: "calc(2rem + 40px)" }}>
       {/* Top divider */}
-      <div className={`swiss-divider mx-grid-2 mb-grid-4 enter-line-grow${v}`} />
+      <div className={`swiss-divider mx-grid-2 mb-grid enter-line-grow${v}`} />
 
       {/* Section header */}
-      <div className={`px-grid-2 mb-grid-3 enter-fade-up${v}`}>
+      <div className={`px-grid-2 mb-grid enter-fade-up${v}`}>
         <span className="swiss-label block mb-grid">Life Journey</span>
         <h2 className="font-display text-display-md font-bold text-foreground">
           {"「乐天派」"}
@@ -275,7 +275,7 @@ export function JourneySection() {
         </div>
 
         {/* Timeline below map */}
-        <div className="mt-grid pb-8 grid grid-cols-2 gap-grid lg:grid-cols-5 max-w-4xl mx-auto">
+        <div className="mt-2 grid grid-cols-2 gap-grid lg:grid-cols-5 max-w-4xl mx-auto">
           {milestones.map((m, i) => (
             <div key={i} className="border-t border-border pt-grid">
               <span className="swiss-label block mb-1">{m.year}</span>

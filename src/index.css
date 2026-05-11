@@ -146,6 +146,9 @@
 .snap-section {
   scroll-snap-align: start;
   min-height: 100vh;
+  box-sizing: border-box;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 /* Scroll-triggered entrance */
