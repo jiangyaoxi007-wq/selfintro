@@ -53,7 +53,7 @@ export function PersonalitySection() {
             {/* Image 1 - selfie, tall left */}
             <div className="col-span-2 row-span-2 overflow-hidden">
               <img
-                src={`${import.meta.env.BASE_URL}images/selfie.png`}
+                src={`${import.meta.env.BASE_URL}images/selfie.jpg`}
                 alt="个人照片"
                 className="h-full w-full object-cover"
                 loading="lazy"
@@ -63,7 +63,7 @@ export function PersonalitySection() {
             {/* Image 2 - village walk, wide top right */}
             <div className="col-span-4 row-span-1 overflow-hidden">
               <img
-                src={`${import.meta.env.BASE_URL}images/village-walk.png`}
+                src={`${import.meta.env.BASE_URL}images/village-walk.jpg`}
                 alt="CityWalk 古村漫步"
                 className="h-full w-full object-cover"
                 loading="lazy"
@@ -73,7 +73,7 @@ export function PersonalitySection() {
             {/* Image 3 - chengdu sign */}
             <div className="col-span-2 row-span-1 overflow-hidden">
               <img
-                src={`${import.meta.env.BASE_URL}images/chengdu-sign.png`}
+                src={`${import.meta.env.BASE_URL}images/chengdu-sign.jpg`}
                 alt="成都 三分地礼物"
                 className="h-full w-full object-cover object-top"
                 loading="lazy"
@@ -83,7 +83,7 @@ export function PersonalitySection() {
             {/* Image 4 - brunch spread */}
             <div className="col-span-2 row-span-1 overflow-hidden">
               <img
-                src={`${import.meta.env.BASE_URL}images/brunch.png`}
+                src={`${import.meta.env.BASE_URL}images/brunch.jpg`}
                 alt="美食 Brunch"
                 className="h-full w-full object-cover"
                 loading="lazy"
@@ -93,7 +93,7 @@ export function PersonalitySection() {
             {/* Image 5 - spicy food, bottom spanning */}
             <div className="col-span-3 row-span-1 overflow-hidden">
               <img
-                src={`${import.meta.env.BASE_URL}images/spicy-food.png`}
+                src={`${import.meta.env.BASE_URL}images/spicy-food.jpg`}
                 alt="辣子鸡 成都味道"
                 className="h-full w-full object-cover"
                 loading="lazy"
@@ -103,7 +103,7 @@ export function PersonalitySection() {
             {/* Image 6 - cafe drink */}
             <div className="col-span-3 row-span-1 overflow-hidden">
               <img
-                src={`${import.meta.env.BASE_URL}images/cafe-drink.png`}
+                src={`${import.meta.env.BASE_URL}images/cafe-drink.jpg`}
                 alt="咖啡与画"
                 className="h-full w-full object-cover"
                 loading="lazy"

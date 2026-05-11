@@ -8,25 +8,25 @@ export function ExperienceSection() {
       year: "2023",
       title: "吭哧吭哧整资产",
       desc: "手搓组件库+设计规范，业务团队内宣讲",
-      image: `${import.meta.env.BASE_URL}images/exp-design-system.png`,
+      image: `${import.meta.env.BASE_URL}images/exp-design-system.jpg`,
     },
     {
       year: "2023",
       title: "体验优化gogogo",
       desc: "用户访谈收集问题，推动成熟B端产品页面改版",
-      image: `${import.meta.env.BASE_URL}images/exp-user-research.png`,
+      image: `${import.meta.env.BASE_URL}images/exp-user-research.jpg`,
     },
     {
       year: "2024",
       title: "智能可观测设计",
       desc: "运维场景智能可观测设计，探索CUI+GUI无缝衔接方式",
-      image: `${import.meta.env.BASE_URL}images/exp-observability.png`,
+      image: `${import.meta.env.BASE_URL}images/exp-observability.jpg`,
     },
     {
       year: "2025",
       title: "智能视频混剪",
       desc: "智能视频混剪产品体验设计，页面设计+AI素材设计",
-      image: `${import.meta.env.BASE_URL}images/exp-video-editor.png`,
+      image: `${import.meta.env.BASE_URL}images/exp-video-editor.jpg`,
     },
   ]
 
