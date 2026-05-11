@@ -275,7 +275,7 @@ export function JourneySection() {
         </div>
 
         {/* Timeline below map */}
-        <div className="mt-grid grid grid-cols-2 gap-grid lg:grid-cols-5 max-w-4xl mx-auto">
+        <div className="mt-grid pb-8 grid grid-cols-2 gap-grid lg:grid-cols-5 max-w-4xl mx-auto">
           {milestones.map((m, i) => (
             <div key={i} className="border-t border-border pt-grid">
               <span className="swiss-label block mb-1">{m.year}</span>
