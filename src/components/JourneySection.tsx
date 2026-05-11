@@ -1,4 +1,9 @@
+import { useState, useEffect } from "react"
+import { useInView } from "../hooks/useInView"
+
 export function JourneySection() {
+  const { ref, inView } = useInView()
+  const v = inView ? " in-view" : ""
   const milestones = [
     { year: "2015前", city: "成都", desc: "生活" },
     { year: "2015", city: "沈阳", desc: "念本科 · 工业设计" },
@@ -18,13 +23,42 @@ export function JourneySection() {
 
   const cities = milestones.map((m) => m.city)
 
+  // Animation timing
+  const segmentDuration = 0.5
+  const dotDuration = 0.25
+  const initialDelay = 0.15
+
+  // Sequential: line draws, then city appears, then next line draws...
+  // Line i starts at: initialDelay + i * (segmentDuration + dotDuration)
+  // City i (i>0) appears when line i-1 finishes: initialDelay + (i-1) * (segmentDuration + dotDuration) + segmentDuration
+  const lineDelays = milestones.slice(0, -1).map((_, i) =>
+    initialDelay + i * (segmentDuration + dotDuration)
+  )
+  const cityDelays = milestones.map((_, i) =>
+    i === 0 ? 0 : initialDelay + (i - 1) * (segmentDuration + dotDuration) + segmentDuration
+  )
+
+  // Loop: reset animation key every cycle to replay (only when in view)
+  const lastCityDelay = cityDelays[cityDelays.length - 1]
+  const cycleDuration = lastCityDelay + dotDuration + 1.5
+  const [animKey, setAnimKey] = useState(0)
+  useEffect(() => {
+    if (!inView) return
+    // Reset to trigger first play immediately on scroll-in
+    setAnimKey((k) => k + 1)
+    const timer = setInterval(() => {
+      setAnimKey((k) => k + 1)
+    }, cycleDuration * 1000)
+    return () => clearInterval(timer)
+  }, [inView, cycleDuration])
+
   return (
-    <section className="relative w-full bg-background py-grid-8 overflow-hidden">
+    <section ref={ref} className="snap-section relative w-full min-h-screen bg-background flex flex-col justify-center overflow-hidden">
       {/* Top divider */}
-      <div className="swiss-divider mx-grid-2 mb-grid-4" />
+      <div className={`swiss-divider mx-grid-2 mb-grid-4 enter-line-grow${v}`} />
 
       {/* Section header */}
-      <div className="px-grid-2 mb-grid-3">
+      <div className={`px-grid-2 mb-grid-3 enter-fade-up${v}`}>
         <span className="swiss-label block mb-grid">Life Journey</span>
         <h2 className="font-display text-display-md font-bold text-foreground">
           {"「乐天派」"}
@@ -35,7 +69,7 @@ export function JourneySection() {
       </div>
 
       {/* Map container */}
-      <div className="px-grid-2">
+      <div className={`px-grid-2 enter-fade-up enter-delay-1${v}`}>
         <div className="relative w-full max-w-2xl mx-auto">
           <svg
             viewBox="0 0 800 600"
@@ -122,7 +156,7 @@ export function JourneySection() {
               />
             ))}
 
-            {/* Connection lines between cities (red, solid) */}
+            {/* Connection lines - base (faded) */}
             {cities.slice(0, -1).map((city, i) => {
               const from = coords[city]
               const to = coords[cities[i + 1]]
@@ -130,13 +164,36 @@ export function JourneySection() {
               const midY = (from.y + to.y) / 2 - 25
               return (
                 <path
-                  key={`line-${i}`}
+                  key={`line-base-${i}`}
                   d={`M ${from.x} ${from.y} Q ${midX} ${midY} ${to.x} ${to.y}`}
                   fill="none"
                   stroke="hsl(var(--accent))"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeDasharray="6 4"
+                  opacity="0.15"
+                />
+              )
+            })}
+
+            {/* Animated group - only renders when scrolled into view */}
+            {inView && <g key={animKey}>
+            {/* Connection lines - animated flow overlay */}
+            {cities.slice(0, -1).map((city, i) => {
+              const from = coords[city]
+              const to = coords[cities[i + 1]]
+              const midX = (from.x + to.x) / 2
+              const midY = (from.y + to.y) / 2 - 25
+              return (
+                <path
+                  key={`line-flow-${i}`}
+                  d={`M ${from.x} ${from.y} Q ${midX} ${midY} ${to.x} ${to.y}`}
+                  fill="none"
+                  stroke="hsl(var(--accent))"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  className="journey-line-flow"
+                  style={{ animationDelay: `${lineDelays[i]}s` }}
                 />
               )
             })}
@@ -144,6 +201,8 @@ export function JourneySection() {
             {/* City markers and labels */}
             {milestones.map((m, i) => {
               const pos = coords[m.city]
+              const delay = cityDelays[i]
+              const isFirst = i === 0
               const labelOffset = m.city === "北京" ? { x: 18, y: -8 } :
                                   m.city === "徐州" ? { x: 18, y: 5 } :
                                   m.city === "沈阳" ? { x: 18, y: -8 } :
@@ -151,7 +210,20 @@ export function JourneySection() {
                                   { x: -70, y: -12 }
               return (
                 <g key={i}>
-                  {/* Outer pulse ring */}
+                  {/* Ripple ring - expands outward on arrival (skip for first city) */}
+                  {!isFirst && (
+                    <circle
+                      cx={pos.x}
+                      cy={pos.y}
+                      r="5"
+                      fill="none"
+                      stroke="hsl(var(--accent))"
+                      strokeWidth="1.5"
+                      className="journey-ripple"
+                      style={{ animationDelay: `${delay}s` }}
+                    />
+                  )}
+                  {/* Outer ring */}
                   <circle
                     cx={pos.x}
                     cy={pos.y}
@@ -159,7 +231,8 @@ export function JourneySection() {
                     fill="none"
                     stroke="hsl(var(--accent))"
                     strokeWidth="1"
-                    opacity="0.3"
+                    opacity={isFirst ? "0.3" : "0"}
+                    style={isFirst ? undefined : { animation: `dot-arrive 0.4s ${delay + 0.3}s forwards` }}
                   />
                   {/* Inner dot */}
                   <circle
@@ -167,6 +240,9 @@ export function JourneySection() {
                     cy={pos.y}
                     r="5"
                     fill="hsl(var(--accent))"
+                    opacity={isFirst ? "1" : "0.4"}
+                    className={isFirst ? undefined : "journey-dot"}
+                    style={isFirst ? undefined : { animationDelay: `${delay}s` }}
                   />
                   {/* City name + year */}
                   <text
@@ -175,6 +251,8 @@ export function JourneySection() {
                     fontSize="14"
                     fontWeight="700"
                     fill="hsl(var(--foreground))"
+                    opacity={isFirst ? "1" : "0"}
+                    style={isFirst ? undefined : { animation: `dot-arrive 0.4s ${delay + 0.2}s forwards` }}
                   >
                     {m.city}
                   </text>
@@ -184,12 +262,15 @@ export function JourneySection() {
                     fontSize="11"
                     fill="hsl(var(--muted-foreground))"
                     letterSpacing="0.05em"
+                    opacity={isFirst ? "1" : "0"}
+                    style={isFirst ? undefined : { animation: `dot-arrive 0.4s ${delay + 0.2}s forwards` }}
                   >
                     {m.year}
                   </text>
                 </g>
               )
             })}
+            </g>}
           </svg>
         </div>
 

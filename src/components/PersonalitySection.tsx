@@ -1,4 +1,8 @@
+import { useInView } from "../hooks/useInView"
+
 export function PersonalitySection() {
+  const { ref, inView } = useInView()
+  const v = inView ? " in-view" : ""
   const traits = [
     { label: "INTJ", text: "但经常被误会成E人..." },
     { label: "喜欢CityWalk", text: "但体力总是跟不上..." },
@@ -7,12 +11,12 @@ export function PersonalitySection() {
   ]
 
   return (
-    <section className="relative w-full bg-background py-grid-8 overflow-hidden">
+    <section ref={ref} className="snap-section relative w-full min-h-screen bg-background flex flex-col justify-center overflow-hidden">
       {/* Top divider */}
-      <div className="swiss-divider mx-grid-2 mb-grid-4" />
+      <div className={`swiss-divider mx-grid-2 mb-grid-4 enter-line-grow${v}`} />
 
       {/* Section header */}
-      <div className="px-grid-2 mb-grid-4">
+      <div className={`px-grid-2 mb-grid-4 enter-fade-up${v}`}>
         <span className="swiss-label block mb-grid">About Me</span>
         <h2 className="font-display text-display-md font-bold text-foreground">
           关于我
@@ -23,7 +27,7 @@ export function PersonalitySection() {
       <div className="px-grid-2 grid grid-cols-1 gap-grid-3 lg:grid-cols-12">
 
         {/* Left: personality traits */}
-        <div className="lg:col-span-5 flex flex-col justify-center">
+        <div className={`lg:col-span-5 flex flex-col justify-center enter-fade-up enter-delay-1${v}`}>
           <ul className="space-y-grid-2">
             {traits.map((trait, i) => (
               <li key={i} className="group">
@@ -44,7 +48,7 @@ export function PersonalitySection() {
         </div>
 
         {/* Right: asymmetric image grid */}
-        <div className="lg:col-span-7">
+        <div className={`lg:col-span-7 enter-fade-up enter-delay-2${v}`}>
           <div className="grid grid-cols-6 grid-rows-[200px_200px_200px] gap-3 lg:grid-rows-[220px_220px_220px]">
             {/* Image 1 - selfie, tall left */}
             <div className="col-span-2 row-span-2 overflow-hidden">

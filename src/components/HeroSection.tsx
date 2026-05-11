@@ -2,7 +2,7 @@ import { BotanicalIllustration } from "./BotanicalIllustration"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-background">
+    <section className="snap-section relative min-h-screen w-full overflow-hidden bg-background">
       {/* Swiss grid background */}
       <div className="absolute inset-0 opacity-[0.03]">
         <div className="h-full w-full swiss-grid" />
@@ -10,7 +10,7 @@ export function HeroSection() {
 
       {/* Top navigation bar */}
       <header className="relative z-10 flex items-center justify-between px-grid-2 py-grid">
-        <span className="swiss-label">Portfolio 2026</span>
+        <span className="swiss-label">Introduce 2026</span>
         <span className="swiss-label">Wechat-jyxjoyce1997</span>
       </header>
 

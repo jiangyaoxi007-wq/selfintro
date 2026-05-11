@@ -135,3 +135,70 @@
     text-wrap: balance;
   }
 }
+
+/* Full-screen snap scroll */
+.snap-container {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.snap-section {
+  scroll-snap-align: start;
+  min-height: 100vh;
+}
+
+/* Scroll-triggered entrance */
+.enter-fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.enter-fade-up.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.enter-delay-1 { transition-delay: 0.15s; }
+.enter-delay-2 { transition-delay: 0.3s; }
+.enter-delay-3 { transition-delay: 0.45s; }
+
+.enter-line-grow {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.enter-line-grow.in-view {
+  transform: scaleX(1);
+}
+
+/* Map journey animations */
+@keyframes draw-line {
+  from { stroke-dashoffset: 800; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes ripple {
+  0% { r: 5; opacity: 0.4; }
+  100% { r: 18; opacity: 0; }
+}
+
+@keyframes dot-arrive {
+  0% { r: 4; opacity: 0.5; }
+  40% { r: 6; opacity: 1; }
+  100% { r: 5; opacity: 1; }
+}
+
+.journey-line-flow {
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  animation: draw-line 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.journey-ripple {
+  animation: ripple 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.journey-dot {
+  animation: dot-arrive 0.25s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}

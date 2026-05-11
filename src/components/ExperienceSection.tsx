@@ -1,4 +1,8 @@
+import { useInView } from "../hooks/useInView"
+
 export function ExperienceSection() {
+  const { ref, inView } = useInView()
+  const v = inView ? " in-view" : ""
   const experiences = [
     {
       year: "2023",
@@ -27,12 +31,12 @@ export function ExperienceSection() {
   ]
 
   return (
-    <section className="relative w-full bg-background py-grid-8 overflow-hidden">
+    <section ref={ref} className="snap-section relative w-full min-h-screen bg-background flex flex-col justify-center overflow-hidden">
       {/* Top divider */}
-      <div className="swiss-divider mx-grid-2 mb-grid-4" />
+      <div className={`swiss-divider mx-grid-2 mb-grid-4 enter-line-grow${v}`} />
 
       {/* Section header */}
-      <div className="px-grid-2 mb-grid-3">
+      <div className={`px-grid-2 mb-grid-3 enter-fade-up${v}`}>
         <span className="swiss-label block mb-grid">Work Experience</span>
         <h2 className="font-display text-display-md font-bold text-foreground">
           {"过往经历"}
@@ -43,7 +47,7 @@ export function ExperienceSection() {
       <div className="px-grid-2">
         <div className="grid grid-cols-1 gap-grid-2 md:grid-cols-2 lg:grid-cols-4">
           {experiences.map((exp, i) => (
-            <div key={i} className="group">
+            <div key={i} className={`group enter-fade-up enter-delay-${Math.min(i + 1, 3)}${v}`}>
               {/* Image */}
               <div className="aspect-[4/3] overflow-hidden rounded-lg mb-grid">
                 <img
